@@ -5,13 +5,10 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Kodeverket projekter',
-
-  projectId: '6ci6a7t9',
-  dataset: 'production',
-
+  title: 'Template project',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "development" as string,
   plugins: [structureTool(), visionTool()],
-
   schema: {
     types: schemaTypes,
   },
