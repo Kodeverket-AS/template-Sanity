@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'Template project',
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "development" as string,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production" as string,
   plugins: [structureTool(), visionTool()],
   schema: {
     types: schemaTypes,
