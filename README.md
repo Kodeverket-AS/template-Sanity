@@ -2,8 +2,7 @@
 Dette repositoriet kan brukes for å generere nye Sanity prosjekter. Sanity Studio installasjon er bassert på versjon `"sanity": "3.x",` og vill fungere fram til større versjons oppdateringer.
 For å ta i bruk denne templaten må du gjøre noen steg
 
-
-## Prosjekt instillinger
+<!-- ## Prosjekt instillinger
 Dette prosjekter bruk `.env` fil for å lagre detaljer som; **prosjekt id**, **dataset** og **api-versjon**. Denne filen lagres i root directory sammen med `package.json`.
 Du kan starte et nytt prosjekt på [sanity.io](https://www.sanity.io) og hente [prosjekt instillinger derfra](https://www.sanity.io/manage)
 
@@ -12,6 +11,17 @@ Vi ønsker at dere ikke skal legge med projectID hardcoded i repositories, selv 
 NEXT_PUBLIC_SANITY_API_VERSION=
 NEXT_PUBLIC_SANITY_DATASET=
 NEXT_PUBLIC_SANITY_PROJECT_ID=
+``` -->
+
+## Prosjekt instillinger
+Du kan finne konfigurasjons slik som `projectID` og `dataset` ved å gå inn på [sanity.io/manage](https://www.sanity.io/manage), og så klikke på det aktuelle prosjektet.
+
+![alt text](docs/sanity-project-example.png)
+
+Etter du har funnet informasjonen kan du oppdatere `sanity.config.ts` og `sanity.cli.ts` filen med prosjekt detaljene
+```js
+projectId: '<projectID>',
+dataset: '<datasetName>',
 ```
 
 ## Førstegangs oppset av Sanity Studio
@@ -48,6 +58,19 @@ Etter du har satt opp repo og sjekket at alt fungerer på [localhost](http://loc
 sanity deploy
 ```
 
+## Hvordan sitter jeg opp github action for deployment?
+> [!NOTE]
+> Når du genererer en API nøkkel er den kun synlig en gang, hvis du ikke tar vare på denne må du generere en ny.
+
+Etter du har satt opp et prosjekt må du hente ut en api nøkkel fra `https://www.sanity.io/organizations/<organizationID>/project/<projectID>/api`, eventuelt kan du gå via [manage siden](https://www.sanity.io/manage).
+
+![alt text](docs/sanity-tokens.png)
+
+Etter du har fått tak i token, så må du gå til github repoet `https://github.com/Kodeverket-AS/<repository name>/settings/secrets/actions` og lage en ny `Repository secrets`.
+Her lager du en ny secret med nøkkel navn `SANITY_DEPLOY_TOKEN` hvor value er en base64 encoded string på 180 characters som du hentet tidligere.
+
+![alt text](docs/github-secret.png)
+
 ## Hvordan henter jeg ut types til typescript
 Hvis du bruker typescript i prosjektet der du bruker data fra [sanity.io](https://www.sanity.io) kan det være kjekt å ha riktig types tilgjengelig. [Sanity CLI](https://www.sanity.io/docs/cli) har en innebygd kommando som henter ut schema types og gjør dette tilgjengelig i en fil som du kan kopiere over til ditt prosjekt.
 
@@ -70,8 +93,8 @@ export default defineConfig([
     subtitle: 'production',
     name: 'production-workspace',
     basePath: '/production',
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "development" as string,
+    projectId: '<projectID>',
+    dataset: 'production',
     plugins: [structureTool(), visionTool()],
     schema: {
       types: schemaTypes,
@@ -82,8 +105,8 @@ export default defineConfig([
     subtitle: 'development',
     name: 'development-workspace',
     basePath: '/development',
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "development" as string,
+    projectId: '<projectID>',
+    dataset: 'development',
     plugins: [structureTool(), visionTool()],
     schema: {
       types: schemaTypes,
