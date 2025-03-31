@@ -48,6 +48,19 @@ Etter du har satt opp repo og sjekket at alt fungerer på [localhost](http://loc
 sanity deploy
 ```
 
+## Hvordan sitter jeg opp github action for deployment?
+> [!NOTE]
+> Når du genererer en API nøkkel er den kun synlig en gang, hvis du ikke tar vare på denne må du generere en ny.
+
+Etter du har satt opp et prosjekt må du hente ut en api nøkkel fra `https://www.sanity.io/organizations/<organizationID>/project/<projectID>/api`, eventuelt kan du gå via [manage siden](https://www.sanity.io/manage).
+
+![alt text](docs/sanity-tokens.png)
+
+Etter du har fått tak i token, så må du gå til github repoet `https://github.com/Kodeverket-AS/<repository name>/settings/secrets/actions` og lage en ny `Repository secrets`.
+Her lager du en ny secret med nøkkel navn `SANITY_DEPLOY_TOKEN` hvor value er en base64 encoded string på 180 characters som du hentet tidligere.
+
+![alt text](docs/github-secret.png)
+
 ## Hvordan henter jeg ut types til typescript
 Hvis du bruker typescript i prosjektet der du bruker data fra [sanity.io](https://www.sanity.io) kan det være kjekt å ha riktig types tilgjengelig. [Sanity CLI](https://www.sanity.io/docs/cli) har en innebygd kommando som henter ut schema types og gjør dette tilgjengelig i en fil som du kan kopiere over til ditt prosjekt.
 
