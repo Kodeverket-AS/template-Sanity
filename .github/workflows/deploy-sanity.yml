@@ -1,6 +1,3 @@
-# This workflows automatically deploys current code and schema on pull request to main
-# Skipping the need to manually run "npm run deploy"
-
 name: Deploy sanity studio
 
 on:

@@ -2,8 +2,7 @@ name: Restrict PRs to main from development
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
   enforce-branch-origin:
