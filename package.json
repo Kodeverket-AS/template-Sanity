@@ -8,8 +8,8 @@
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
-    "typegen": "sanity schema validate && sanity schema extract --path types/schema.json && sanity typegen generate",
-    "validate": "sanity schema validate",
+    "validate": "sanity schema validate --workspace production-workspace",
+    "typegen": "npm run validate && sanity schema extract --path types/schema.json && sanity typegen generate",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy"
   },
