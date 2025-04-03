@@ -1,13 +1,15 @@
 {
-  "name": "kodeverket-projekter",
+  "name": "fontenehuset-cms",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "package.json",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
+    "validate": "sanity schema validate --workspace production-workspace",
+    "typegen": "npm run validate && sanity schema extract --path types/schema.json && sanity typegen generate",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy"
   },
@@ -19,7 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity": "^3.81.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^5.0.2",
@@ -29,9 +31,12 @@
     "typescript": "^5.1.6"
   },
   "prettier": {
-    "semi": false,
-    "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
+    "tabWidth": 2,
+    "useTabs": false,
+    "arrowParens": "always",
+    "jsxSingleQuote": true,
+    "singleAttributePerLine": true,
+    "bracketSameLine": false,
+    "bracketSpacing": true
   }
 }
