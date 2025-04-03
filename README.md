@@ -74,17 +74,27 @@ Her lager du en ny secret med nøkkel navn `SANITY_DEPLOY_TOKEN` hvor value er e
 ## Hvordan henter jeg ut types til typescript
 Hvis du bruker typescript i prosjektet der du bruker data fra [sanity.io](https://www.sanity.io) kan det være kjekt å ha riktig types tilgjengelig. [Sanity CLI](https://www.sanity.io/docs/cli) har en innebygd kommando som henter ut schema types og gjør dette tilgjengelig i en fil som du kan kopiere over til ditt prosjekt.
 
-Denne processen består av 2 steg, først henter vi ut informasjonen fra alle schemas,
+<!-- Denne processen består av 2 steg, først henter vi ut informasjonen fra alle schemas,
 ```console
 sanity schema extract --path "types/schema.json"
 ```
 så lager vi en `sanity.types.ts` fil som inneholder alle types sanity bruker.
 ```console
 sanity typegen generate
+``` -->
+
+Innebygd i `package.json` ligger et script som kan hjelpe deg med dette, du kan kjøre følgende kommando for å generere types
+```console
+npm run typegen
 ```
+
 Du kan nå bruke `types/sanity.types.ts` filen i ditt prosjekt der typescript blir brukt.
 
 ## Hvordan kan jeg bruke flere datasets
+
+> [!NOTE]
+> Hvis du derimot ønsker at `production` dataset skal være tilgjengelig på [sanity.io](https://www.sanity.io), mens `development` kun er tilgjengelig via [localhost](http://localhost:3333/) kan du gjøre dette ved kjøre en sjekk på `process.env.NODE_ENV || 'development'`
+
 Hvis du trenger å ha `production` og `development` datasets er dette mulig ved å sitte opp `sanity.config.ts` til å ha en array av configs. Denne metoden bruker [workspaces](https://www.sanity.io/docs/workspaces) for å ha tilgang til begge samtidig.
 ```js
 export default defineConfig([
@@ -114,9 +124,27 @@ export default defineConfig([
   },
 ])
 ```
-> [!NOTE]
-> Hvis du derimot ønsker at `production` dataset skal være tilgjengelig på [sanity.io](https://www.sanity.io), mens `development` kun er tilgjengelig via [localhost](http://localhost:3333/) kan du gjøre dette ved kjøre en sjekk på `process.env.NODE_ENV || 'development'`
 
+> [!WARNING]
+> Gjelder kun hvis du har flere flere workspaces!
+
+Hvis du bruker workspaces må du også oppdatere `package.json` sitt validate script til å bruke default workspace for validering.
+
+```json
+{
+  ...
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "validate": "sanity schema validate --workspace navn-på-workspace", // <--
+    "typegen": "npm run validate && sanity schema extract --path types/schema.json && sanity typegen generate",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
+  },
+  ...
+}
+```
 
 ## Mer informasjon om Sanity
 - [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)

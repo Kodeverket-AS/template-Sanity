@@ -1,0 +1,36 @@
+name: Validate sanity studio
+
+on:
+  pull_request:
+    branches: ["development"]
+    types: [opened, reopened, synchronize]
+
+jobs:
+  validate:
+    name: Validate and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Restore cached Node Modules 💾
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate Schema
+        run: npm run validate
+
+      - name: Build studio
+        run: npm run build
